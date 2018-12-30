@@ -33,76 +33,70 @@ function countDown(){
     fill(255);
 }
 
-function particle(a,b,v){
-    this.x = a;
-    this.y = b;
-    this.v = v;
-    this.g = .25;
-    this.force = 3
-    this.randVelocity = [random(-this.force,this.force),random(-this.force,this.force)];
+class trail{
+    constructor(x,y,i,j){
+        this.x = x;
+        this.y = y;
+        this.vx = i;
+        this.vy = j;
+        this.g = .25;   //gravity
+        this.o = 100;   //opacity
+    }
+
     
-    
-    this.update = function(){
-        this.y += this.g;
-        if (this.v > 0){
-            this.y -= this.v;
-            this.v -= 1; 
-        }
-        this.x += this.randVelocity[0];
-        this.y += this.randVelocity[1]; 
-        
+    update(){
+        this.o -= 5;
+        this.x+=this.vx;
+        this.y+=this.vy;
+        console.log("this.x,this.y,this.vx,this.vy");
+
+
     }
     
-    this.show = function(){
-        ellipse (this.x,this.y,5,5);
-    }  
+    diplay(){
+        ellipse (this.x,this.y,10,10);      
+    }
 }
 
 function firework(){
-    this.particles = [];
-    this.count = 100;
-    this.x = random(width*.1,width*.9);
+    this.trails = []
+    this.x = random(width);
     this.y = random(height*.8,height);
     this.v = 30;
     this.g = .25;   //gravity
-    this.o = 255;   //opacity
-    this.exploded = false; 
+    this.o = 100;   //opacity
+    this.dir = [-1,0,1];
+     
     
     this.update = function(){
-        if (this.particles.length == 0 && this.exploded == true){
-            for (var i = 0; i < this.count; i++){
-                this.particles.push(new particle(this.x,this.y,this.v));
-            }
-        }
-        
         this.y += this.g;
         if (this.v > 0){
             this.y -= this.v;
-            this.v -= 1; 
+            this.v -= 1;          
         } else {
-            this.exploded = true;
-        }
-        
-        for (var i = 0; i < this.particles.length; i++){
-            this.particles[i].update();
+            for (var i = 0; i< this.dir.length; i++){
+                for (var j = 0; j< this.dir.length; j++){
+                    this.trails.push[new trail(this.x,this.y,this.dir[i],this.dir[j])];
+
+                }
+            }
+                   
         }
     }
     
-    this.show = function(){   
-        fill(255,255,255,this.o)
-        this.o-=2;
-        ellipse (this.x,this.y,5,5);
-        
-        for (var i = 0; i < this.particles.length; i++){
-            this.particles[i].show();
-        }
+    this.show = function(){
+        for (var k = 0; k<this.trails.length; k++){
+            this.trails[i].update();
+            this.trails[i].show();
+        }        
+        ellipse (this.x,this.y,10,10);      
     }    
 }    
 
 
 
 //let timer = timeLeft();
-let timer = 5; 
+let timer = 1; 
 var fireworks = [];
 var font;
 
@@ -120,7 +114,7 @@ function draw() {
    
 
     if (timer == 0) {
-        if (frameCount % 180 == 0) {
+        if (frameCount % 60 == 0) {
             fireworks.push(new firework);
         }
         
