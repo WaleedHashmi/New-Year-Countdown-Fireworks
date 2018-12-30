@@ -66,7 +66,9 @@ function firework(){
     this.v = 30;
     this.g = .25;   //gravity
     this.o = 255;   //opacity
+    this.oFactor = 3 //opacity reduction factor
     this.exploded = false; 
+    this.hue = [random(100,255),random(100,255),random(100,255)]
     
     this.update = function(){
         if (this.particles.length == 0 && this.exploded == true){
@@ -89,8 +91,8 @@ function firework(){
     }
     
     this.show = function(){   
-        fill(255,255,255,this.o)
-        this.o-=2;
+        fill(this.hue[0],this.hue[1],this.hue[2],this.o)
+        this.o -= this.oFactor;
         ellipse (this.x,this.y,5,5);
         
         for (var i = 0; i < this.particles.length; i++){
@@ -100,9 +102,26 @@ function firework(){
 }    
 
 
+function fireshow(){
+    if (frameCount % 20 == 0) {
+        fireworks.push(new firework);
+    }
 
-//let timer = timeLeft();
-let timer = 5; 
+    for (var i = 0; i<fireworks.length; i++){
+        fireworks[i].show();
+        fireworks[i].update();
+    }
+    
+    textAlign(CENTER, CENTER);
+    textFont(font);
+    textSize(50);
+    fill(255)
+    text("Happy New Year", width/2, height/2);
+}
+
+
+let timer = timeLeft();
+//let timer = 1; 
 var fireworks = [];
 var font;
 
@@ -114,23 +133,13 @@ function setup(){
   
 function draw() {
     background (0);
-    
-    
-    if (frameCount % 60 == 0 && timer > 0) {timer --;}
-   
+
+    if (frameCount % 60 == 0 && timer > 0) {
+        timer --;
+    }
 
     if (timer == 0) {
-        if (frameCount % 180 == 0) {
-            fireworks.push(new firework);
-        }
-        
-        for (var i = 0; i<fireworks.length; i++){
-            fireworks[i].show();
-            fireworks[i].update();
-        }
-        
-        
-        
+        fireshow();      
     } else {
         countDown();
     }
