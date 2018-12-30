@@ -33,12 +33,39 @@ function countDown(){
     fill(255);
 }
 
+class trail{
+    constructor(x,y,i,j){
+        this.x = x;
+        this.y = y;
+        this.vx = i;
+        this.vy = j;
+        this.g = .25;   //gravity
+        this.o = 100;   //opacity
+    }
+
+    
+    update(){
+        this.o -= 5;
+        this.x+=this.vx;
+        this.y+=this.vy;
+        console.log("this.x,this.y,this.vx,this.vy");
+
+
+    }
+    
+    diplay(){
+        ellipse (this.x,this.y,10,10);      
+    }
+}
+
 function firework(){
+    this.trails = []
     this.x = random(width);
     this.y = random(height*.8,height);
     this.v = 30;
     this.g = .25;   //gravity
     this.o = 100;   //opacity
+    this.dir = [-1,0,1];
      
     
     this.update = function(){
@@ -46,15 +73,24 @@ function firework(){
         if (this.v > 0){
             this.y -= this.v;
             this.v -= 1;          
-        }
-    
+        } else {
+            for (var i = 0; i< this.dir.length; i++){
+                for (var j = 0; j< this.dir.length; j++){
+                    this.trails.push[new trail(this.x,this.y,this.dir[i],this.dir[j])];
 
+                }
+            }
+                   
+        }
     }
     
     this.show = function(){
-        ellipse (this.x,this.y,10,10);
-    }
-    
+        for (var k = 0; k<this.trails.length; k++){
+            this.trails[i].update();
+            this.trails[i].show();
+        }        
+        ellipse (this.x,this.y,10,10);      
+    }    
 }    
 
 
@@ -85,7 +121,6 @@ function draw() {
         for (var i = 0; i<fireworks.length; i++){
             fireworks[i].show();
             fireworks[i].update();
-
         }
         
         
