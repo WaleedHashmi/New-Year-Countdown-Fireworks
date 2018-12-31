@@ -126,8 +126,8 @@ function fireshow(){
 }
 
 
-//let timer = timeLeft();
-let timer = 1; 
+let timer = timeLeft();
+//let timer = 1; 
 var fireworks = [];
 var font; 
 
