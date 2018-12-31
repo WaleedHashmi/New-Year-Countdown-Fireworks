@@ -64,7 +64,7 @@ function firework(){
     this.x = random(width*.1,width*.9);
     this.y = random(height*.8,height);
     this.v = 30;
-    this.g = .25;   //gravity
+    this.g = .35;   //gravity
     this.o = 255;   //opacity
     this.oFactor = 3 //opacity reduction factor
     this.exploded = false; 
@@ -110,6 +110,12 @@ function fireshow(){
     for (var i = 0; i<fireworks.length; i++){
         fireworks[i].show();
         fireworks[i].update();
+        
+        if (fireworks[i].o <= 0){
+            fireworks.splice(i,1);
+        }
+         
+        console.log(fireworks.length)
     }
     
     textAlign(CENTER, CENTER);
@@ -120,10 +126,10 @@ function fireshow(){
 }
 
 
-let timer = timeLeft();
-//let timer = 1; 
+//let timer = timeLeft();
+let timer = 1; 
 var fireworks = [];
-var font;
+var font; 
 
 function setup(){
     // setting the canvas dimensions to the dimensions 
