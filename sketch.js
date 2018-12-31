@@ -6,6 +6,7 @@ var timeLeft = function(){
     var currentDate = new Date();
     currentDate = currentDate.getTime();
     var endDate = new Date("2019-01-01 00:00:00");
+    if (parseInt((endDate-currentDate)/1000)<0){return 0}
     return parseInt((endDate-currentDate)/1000);
 }
 
